@@ -15,7 +15,7 @@ install:
   - cd build-gtest
   - cmake /usr/src/gtest
   - cmake --build .
-  - sudo make install
+  - sudo cp *.a /usr/lib
   - cd "${TRAVIS_BUILD_DIR}"
     
 script:
