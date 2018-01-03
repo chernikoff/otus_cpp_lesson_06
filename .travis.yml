@@ -1,0 +1,26 @@
+language: cpp
+compiler: gcc
+sudo: required
+dist: trusty
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt-get install -qq g++-6
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+  - sudo apt-get install -qq libgtest-dev
+  - mkdir build-gtest
+  - cd build-gtest
+  - cmake /usr/src/gtest
+  - cmake --build .
+  - sudo make install
+  - cd "${TRAVIS_BUILD_DIR}"
+    
+script:
+  - cmake .
+  - cmake --build .
+  - ctest -V
+  - cmake --build . --target package
+
