@@ -24,3 +24,8 @@ script:
   - ctest -V
   - cmake --build . --target package
 
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - curl -T otus_cpp_lesson_06-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uchernikoff:$BINTRAY_API_KEY "https://api.bintray.com/content/chernikoff/otus/lesson_06/$TRAVIS_BUILD_NUMBER/otus_cpp_lesson_06-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1;"
