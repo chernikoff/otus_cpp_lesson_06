@@ -3,7 +3,11 @@ compiler: clang
 sudo: required
 dist: trusty
 
+before_install:
+  - sudo apt-get update -qq
+
 install:
+  - sudo apt-get install -qq libgtest-dev
   - mkdir build-gtest
   - cd build-gtest
   - cmake /usr/src/gtest
