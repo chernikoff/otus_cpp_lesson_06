@@ -21,12 +21,19 @@ class pool_allocator
   };
 
   inline pool_allocator() noexcept = default;
-  inline pool_allocator(pool_allocator const & other) noexcept = default;
+  inline pool_allocator(pool_allocator const & other) noexcept
+      : pages_(other.pages_)
+  {}
   inline pool_allocator(pool_allocator && other) noexcept = default;
 
   inline ~pool_allocator() noexcept = default;
 
-  inline pool_allocator & operator=(pool_allocator const & other) noexcept = default;
+  inline pool_allocator & operator=(pool_allocator const & other) noexcept
+  {
+    if (this == &other) return *this;
+    pages_ = other.pages_;
+    return *this;
+  }
   inline pool_allocator & operator=(pool_allocator && other) noexcept = default;
 
   inline T* allocate(size_t n, void const * hint = nullptr);

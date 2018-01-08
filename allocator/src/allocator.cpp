@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include <allocator/pool_allocator.h>
+#include <allocator/vector.h>
 
 auto factorial(size_t num)
 {
@@ -38,16 +39,38 @@ int main(int /*argc*/, char const * /*argv*/[])
 
       for (auto begin = std::begin(map_custom_alloc), end = std::end(map_custom_alloc), it = begin;
            it != end; ++it) {
-        if (it != begin) std::cout << '\n';
-        std::cout << it->first << ' ' << it->second;
+        std::cout << it->first << ' ' << it->second << '\n';
       }
-
     }
+
+    auto initialize_vector = [](auto & vector) {
+      for (size_t i = 0; i < 10; ++i) {
+        vector.push_back(i);
+      }
+    };
+
+    {
+      vector< size_t > my_vector;
+      initialize_vector(my_vector);
+    }
+
+    {
+      vector< size_t, pool_allocator< size_t, 10 > > my_vector;
+      initialize_vector(my_vector);
+
+      for (auto begin = std::begin(my_vector), end = std::end(my_vector), it = begin;
+           it != end; ++it) {
+        std::cout << *it << '\n';
+      }
+    }
+
   }
   catch(std::exception const & e) {
     std::cerr << e.what() << std::endl;
     throw;
   }
 
+
+  std::cout.flush();
   return 0;
 }
