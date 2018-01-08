@@ -13,6 +13,10 @@ class pool_allocator
 {
  public:
   using value_type = T;
+  using pointer = T *;
+  using const_pointer = T const *;
+  using reference = T &;
+  using const_reference = T const &;
 
   template< typename U >
   struct rebind
