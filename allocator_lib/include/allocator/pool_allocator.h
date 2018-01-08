@@ -20,13 +20,16 @@ class pool_allocator
     using other = pool_allocator< U, PageSize >;
   };
 
-  inline pool_allocator() noexcept = default;
+  inline pool_allocator() noexcept {}
   inline pool_allocator(pool_allocator const & other) noexcept
       : pages_(other.pages_)
   {}
-  inline pool_allocator(pool_allocator && other) noexcept = default;
+  inline pool_allocator(pool_allocator && other) noexcept
+  {
+    std::swap(pages_, other.pages_);
+  }
 
-  inline ~pool_allocator() noexcept = default;
+  inline ~pool_allocator() noexcept{};
 
   inline pool_allocator & operator=(pool_allocator const & other) noexcept
   {
@@ -34,7 +37,11 @@ class pool_allocator
     pages_ = other.pages_;
     return *this;
   }
-  inline pool_allocator & operator=(pool_allocator && other) noexcept = default;
+  inline pool_allocator & operator=(pool_allocator && other) noexcept
+  {
+    std::swap(pages_, other.pages_);
+    return *this;
+  }
 
   inline T* allocate(size_t n, void const * hint = nullptr);
   inline void deallocate(T* p, size_t n) noexcept;

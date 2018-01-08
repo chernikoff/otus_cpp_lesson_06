@@ -25,19 +25,19 @@ int main(int /*argc*/, char const * /*argv*/[])
     };
 
     {
-      std::map< size_t, size_t > map_default_alloc;
-      initialize_map(map_default_alloc);
-      assert(map_default_alloc.size() == 10);
+      std::map< size_t, size_t > map;
+      initialize_map(map);
+      assert(map.size() == 10);
     }
 
     {
-      std::map< size_t, size_t, std::less<>,
+      std::map< size_t, size_t, std::less< size_t const >,
                 pool_allocator< std::pair< size_t const, size_t >, 10 >
-                > map_custom_alloc;
-      initialize_map(map_custom_alloc);
-      assert(map_custom_alloc.size() == 10);
+                > map;
+      initialize_map(map);
+      assert(map.size() == 10);
 
-      for (auto begin = std::begin(map_custom_alloc), end = std::end(map_custom_alloc), it = begin;
+      for (auto begin = std::begin(map), end = std::end(map), it = begin;
            it != end; ++it) {
         std::cout << it->first << ' ' << it->second << '\n';
       }
