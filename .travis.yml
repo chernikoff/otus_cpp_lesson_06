@@ -9,7 +9,6 @@ before_install:
 
 install:
   - sudo apt-get install -qq gcc-6
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
   - sudo apt-get install -qq libgtest-dev
   - mkdir build-gtest
   - cd build-gtest
