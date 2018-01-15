@@ -70,7 +70,7 @@ class pool_allocator
 template< typename T, size_t PageSize >
 T* pool_allocator< T, PageSize >::allocate(size_t n, void const *)
 {
-  if (n > PageSize) throw std::bad_alloc();
+  if (n > PageSize) throw std::bad_alloc(); // TODO: for this case should be used malloc()
   auto it = std::find_if(std::begin(pages_), std::end(pages_),
                          [&n](auto const & page) {
                            if ((PageSize - page.allocated) >= n) return true;
@@ -102,7 +102,8 @@ void pool_allocator< T, PageSize >::deallocate(T *p, size_t n) noexcept
     if (start_addr <= ptr && ptr <= end_addr) {
       it->deallocated += n;
       if (it->deallocated == PageSize) {
-        pages_.erase(it);
+        it->allocated = 0;
+        it->deallocated = 0;
       }
       return;
     }
