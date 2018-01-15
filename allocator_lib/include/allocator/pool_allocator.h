@@ -101,7 +101,7 @@ void pool_allocator< T, PageSize >::deallocate(T *p, size_t n) noexcept
     auto end_addr = reinterpret_cast< uintptr_t >(it->mem + PageSize * sizeof(T));
     if (start_addr <= ptr && ptr <= end_addr) {
       it->deallocated += n;
-      if (it->deallocated == PageSize) {
+      if (it->deallocated == it->allocated) {
         it->allocated = 0;
         it->deallocated = 0;
       }
