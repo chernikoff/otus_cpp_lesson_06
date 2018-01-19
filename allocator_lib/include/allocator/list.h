@@ -55,7 +55,7 @@ class list
 
     value_type * operator->()
     {
-      return &current.value;
+      return std::addressof(current.value);
     }
 
     bool operator==(iterator const & other) const
