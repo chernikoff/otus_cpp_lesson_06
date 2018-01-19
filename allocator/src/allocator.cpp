@@ -5,6 +5,7 @@
 
 #include <allocator/pool_allocator.h>
 #include <allocator/vector.h>
+#include <allocator/list.h>
 
 auto factorial(size_t num)
 {
@@ -63,6 +64,22 @@ int main(int /*argc*/, char const * /*argv*/[])
         std::cout << *it << '\n';
       }
     }
+
+    {
+      list< size_t > my_list;
+      initialize_vector(my_list);
+    }
+
+    {
+      list< size_t, pool_allocator< size_t, 10 > > my_list;
+      initialize_vector(my_list);
+
+      for (auto begin = std::begin(my_list), end = std::end(my_list), it = begin;
+           it != end; ++it) {
+        std::cout << *it << '\n';
+      }
+    }
+
 
   }
   catch(std::exception const & e) {
