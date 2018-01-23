@@ -76,6 +76,18 @@ class list
       : head(nullptr)
   {}
 
+  ~list()
+  {
+    auto it = head;
+
+    while (head && it->next) {
+      auto next = it->next;
+      alloc.destroy(it);
+      alloc.deallocate(it, 1);
+      it = next;
+    }
+  }
+
   void push_back(value_type const & value)
   {
     auto mem = alloc.allocate(1, nullptr);
